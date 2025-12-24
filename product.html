@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Product</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+  body{font-family:Arial;margin:0}
+header{display:flex;padding:10px;background:#2874f0;color:white}
+header input{flex:1;margin-left:10px}
+
+.grid{
+ display:grid;
+ grid-template-columns:repeat(2,1fr);
+ gap:10px;
+ padding:10px;
+}
+
+.card{
+ background:white;
+ padding:10px;
+ border-radius:5px;
+}
+
+.categories{
+ display:flex;
+ overflow-x:auto;
+ gap:10px;
+ padding:10px;
+}
+
+#menu{
+ position:fixed;
+ left:-100%;
+ width:70%;
+ height:100%;
+ background:white;
+ transition:.3s;
+}
+#menu.show{left:0}
+</style>
+</head>
+<body>
+
+<div id="product"></div>
+
+<h3>You may also like</h3>
+<div id="related" class="grid"></div>
+
+<script>
+  const products=[
+ {id:1,name:"Men T-shirt",price:"$12",img:"https://via.placeholder.com/200",cat:"Clothes"},
+ {id:2,name:"Ladies Dress",price:"$22",img:"https://via.placeholder.com/200",cat:"Clothes"},
+ {id:3,name:"Phone",price:"$120",img:"https://via.placeholder.com/200",cat:"Electronics"}
+];
+</script>
+<script>
+const p = JSON.parse(localStorage.getItem("product"));
+document.getElementById("product").innerHTML = `
+<img src="${p.img}">
+<h2>${p.name}</h2>
+<p>${p.price}</p>
+<input type="number" id="qty" value="1">
+<button onclick="buy()">Buy Now</button>
+`;
+
+function buy(){
+ p.qty=document.getElementById("qty").value;
+ localStorage.setItem("product",JSON.stringify(p));
+ location.href="checkout.html";
+}
+</script>
+</body>
+</html>
