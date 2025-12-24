@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+<body>
+<h2>Wishlist</h2>
+<div id="wishlist"></div>
+<script>
+  const o=JSON.parse(localStorage.getItem("wishlist"))||[];
+orders.innerHTML=o.map(x=>`
+<div>
+<h4>${x.product}</h4>
+<p>Qty:${x.qty}</p>
+<p>${x.name}</p>
+</div>`).join("");
+</script>
+</body>
+</html>
