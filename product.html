@@ -62,7 +62,6 @@ document.getElementById("product").innerHTML = `
 <p>${p.price}</p>
 <input type="number" id="qty" value="1">
 <button onclick="buy()">Buy Now</button>
-<button onclick="placeOrder()">Place Order</button>
 `;
 
 function buy(){
@@ -71,20 +70,25 @@ function buy(){
  location.href="checkout.html";
 }
 </script>
-  <button onclick="placeOrder()">Place Order</button>
+  <div id="productList"></div>
 
 <script>
-function placeOrder(){
-    const order = {
-        name: "Men T-Shirt",
-        img: "https://i.imgur.com/h0z8h4X.jpeg/600",
-        desc: "High quality cotton T-shirt, soft fabric, durable and comfortable for daily use."
-    };
+const list = document.getElementById("productList");
 
-    let orders = JSON.parse(localStorage.getItem("lastorder")) || [];
-    orders.push(order);
-    localStorage.setItem("orders", JSON.stringify(orders));
+products.forEach(p=>{
+    list.innerHTML += `
+        <div style="margin-bottom:20px;">
+            <img src="${p.img}" width="200"><br>
+            <strong>${p.name}</strong><br>
+            ${p.price}<br>
+            <button onclick="buyNow(${p.id})">Buy Now</button>
+        </div>
+    `;
+});
 
+function buyNow(id){
+    const product = products.find(p => p.id === id);
+    localStorage.setItem("lastOrder", JSON.stringify(product));
     window.location.href = "order.html";
 }
 </script>
