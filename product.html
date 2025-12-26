@@ -70,6 +70,7 @@ function buy(){
  location.href="checkout.html";
 }
 </script>
+  <div id="productList"></div>
 
 <script>
 const list = document.getElementById("productList");
@@ -86,10 +87,8 @@ products.forEach(p=>{
 });
 
 function buyNow(id){
-    let orders = JSON.parse(localStorage.getItem("orders")) || [];
     const product = products.find(p => p.id === id);
-    orders.push(product);
-    localStorage.setItem("orders", JSON.stringify(orders));
+    localStorage.setItem("lastOrder", JSON.stringify(product));
     window.location.href = "order.html";
 }
 </script>
