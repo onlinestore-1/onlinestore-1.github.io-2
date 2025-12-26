@@ -15,15 +15,16 @@ h2{
     font-size:28px;
 }
 
-.order-card{
+.order-box{
+    max-width:520px;
+    margin:auto;
     background:#fff;
-    border-radius:12px;
     padding:15px;
-    margin-bottom:15px;
+    border-radius:12px;
     box-shadow:0 4px 10px rgba(0,0,0,0.1);
 }
 
-.order-card img{
+.order-box img{
     width:100%;
     border-radius:10px;
     margin-bottom:12px;
@@ -40,18 +41,16 @@ h2{
     margin-bottom:10px;
 }
 
-.btn{
+.delete-btn{
+    background:#d9534f;
+    color:white;
+    border:none;
     width:100%;
     padding:12px;
     font-size:18px;
-    border:none;
     border-radius:8px;
     cursor:pointer;
-    margin-top:8px;
 }
-
-.buy-btn{ background:#f0ad4e; }
-.delete-btn{ background:#d9534f; color:white; }
 </style>
 </head>
 
@@ -59,44 +58,28 @@ h2{
 
 <h2>📦 My Orders</h2>
 
-<div id="orders">
+<div id="orderArea">
     <p>Your placed orders will appear here.</p>
 </div>
 
 <script>
-const ordersDiv = document.getElementById("orders");
-let orders = JSON.parse(localStorage.getItem("orders")) || [];
+const orderArea = document.getElementById("orderArea");
+const order = JSON.parse(localStorage.getItem("lastOrder"));
 
-if(orders.length > 0){
-    ordersDiv.innerHTML = "";
-    orders.forEach((o,index)=>{
-        ordersDiv.innerHTML += `
-            <div class="order-card">
-                <img src="${o.img}">
-                <div class="order-name">${o.name}</div>
-                <div class="order-price">${o.price}</div>
-
-                <button class="btn buy-btn" onclick="buyAgain(${index})">
-                    Buy Again
-                </button>
-
-                <button class="btn delete-btn" onclick="deleteOrder(${index})">
-                    Delete After Delivery
-                </button>
-            </div>
-        `;
-    });
+if(order){
+    orderArea.innerHTML = `
+        <div class="order-box">
+            <img src="${order.img}">
+            <div class="order-name">${order.name}</div>
+            <div class="order-price">${order.price}</div>
+            <button class="delete-btn" onclick="deleteOrder()">Delete After Delivery</button>
+        </div>
+    `;
 }
 
-function deleteOrder(i){
-    orders.splice(i,1);
-    localStorage.setItem("orders", JSON.stringify(orders));
-    location.reload();
-}
-
-function buyAgain(i){
-    localStorage.setItem("orders", JSON.stringify(orders));
-    alert("Order placed again!");
+function deleteOrder(){
+    localStorage.removeItem("lastOrder");
+    orderArea.innerHTML = "<p>Your placed orders will appear here.</p>";
 }
 </script>
 
