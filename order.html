@@ -7,54 +7,46 @@
 body{
     font-family: Arial, sans-serif;
     background:#f4f4f4;
-    margin:0;
     padding:15px;
 }
 
 h2{
     text-align:center;
     font-size:28px;
-    margin-bottom:15px;
 }
 
-#orders{
+.order-box{
     max-width:520px;
     margin:auto;
-}
-
-.order-card{
     background:#fff;
     padding:15px;
     border-radius:12px;
     box-shadow:0 4px 10px rgba(0,0,0,0.1);
-    margin-bottom:15px;
 }
 
-.order-card img{
+.order-box img{
     width:100%;
-    height:auto;
     border-radius:10px;
     margin-bottom:12px;
 }
 
-.order-title{
+.order-name{
     font-size:24px;
     font-weight:bold;
-    margin-bottom:6px;
 }
 
-.order-desc{
-    font-size:18px;
-    line-height:1.6;
-    margin-bottom:12px;
+.order-price{
+    font-size:20px;
+    color:green;
+    margin-bottom:10px;
 }
 
 .delete-btn{
     background:#d9534f;
-    color:#fff;
+    color:white;
     border:none;
-    padding:12px;
     width:100%;
+    padding:12px;
     font-size:18px;
     border-radius:8px;
     cursor:pointer;
@@ -66,20 +58,20 @@ h2{
 
 <h2>📦 My Orders</h2>
 
-<div id="orders">
+<div id="orderArea">
     <p>Your placed orders will appear here.</p>
 </div>
 
 <script>
-const ordersDiv = document.getElementById("orders");
+const orderArea = document.getElementById("orderArea");
 const order = JSON.parse(localStorage.getItem("lastOrder"));
 
 if(order){
-    ordersDiv.innerHTML = `
-        <div class="order-card">
+    orderArea.innerHTML = `
+        <div class="order-box">
             <img src="${order.img}">
-            <div class="order-title">${order.name}</div>
-            <div class="order-desc">${order.desc}</div>
+            <div class="order-name">${order.name}</div>
+            <div class="order-price">${order.price}</div>
             <button class="delete-btn" onclick="deleteOrder()">Delete After Delivery</button>
         </div>
     `;
@@ -87,7 +79,7 @@ if(order){
 
 function deleteOrder(){
     localStorage.removeItem("lastOrder");
-    ordersDiv.innerHTML = "<p>Your placed orders will appear here.</p>";
+    orderArea.innerHTML = "<p>Your placed orders will appear here.</p>";
 }
 </script>
 
