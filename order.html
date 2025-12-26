@@ -1,16 +1,82 @@
 <!DOCTYPE html>
 <html>
+<head>
+<title>My Orders</title>
+
+<style>
+body{
+    font-family: Arial, sans-serif;
+    background:#f4f4f4;
+    margin:0;
+    padding:15px;
+}
+
+h2{
+    text-align:center;
+    font-size:28px;
+    margin-bottom:15px;
+}
+
+#orders{
+    max-width:520px;
+    margin:auto;
+}
+
+.order-card{
+    background:#fff;
+    border-radius:12px;
+    padding:15px;
+    margin-bottom:15px;
+    box-shadow:0 4px 10px rgba(0,0,0,0.1);
+}
+
+.order-card img{
+    width:100%;
+    height:auto;
+    border-radius:10px;
+    margin-bottom:12px;
+}
+
+.order-name{
+    font-size:24px;
+    font-weight:bold;
+    margin-bottom:6px;
+}
+
+.order-desc{
+    font-size:18px;
+    line-height:1.6;
+    color:#333;
+}
+</style>
+</head>
+
 <body>
-<h2>My Orders</h2>
-<div id="orders"></div>
+
+<h2>📦 My Orders</h2>
+
+<div id="orders">
+    <p>Your placed orders will appear here.</p>
+</div>
+
 <script>
-  const o=JSON.parse(localStorage.getItem("orders"))||[];
-orders.innerHTML=o.map(x=>`
-<div>
-<h4>${x.product}</h4>
-<p>Qty:${x.qty}</p>
-<p>${x.name}</p>
-</div>`).join("");
+// Get orders from localStorage
+const ordersDiv = document.getElementById("orders");
+const orders = JSON.parse(localStorage.getItem("orders")) || [];
+
+if (orders.length > 0) {
+    ordersDiv.innerHTML = "";
+    orders.forEach(order => {
+        ordersDiv.innerHTML += `
+            <div class="order-card">
+                <img src="${order.img}" alt="${order.name}">
+                <div class="order-name">${order.name}</div>
+                <div class="order-desc">${order.desc}</div>
+            </div>
+        `;
+    });
+}
 </script>
+
 </body>
 </html>
