@@ -86,8 +86,10 @@ products.forEach(p=>{
 });
 
 function buyNow(id){
+    let orders = JSON.parse(localStorage.getItem("orders")) || [];
     const product = products.find(p => p.id === id);
-    localStorage.setItem("lastOrder", JSON.stringify(product));
+    orders.push(product);
+    localStorage.setItem("orders", JSON.stringify(orders));
     window.location.href = "order.html";
 }
 </script>
