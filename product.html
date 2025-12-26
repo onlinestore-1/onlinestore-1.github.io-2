@@ -62,12 +62,30 @@ document.getElementById("product").innerHTML = `
 <p>${p.price}</p>
 <input type="number" id="qty" value="1">
 <button onclick="buy()">Buy Now</button>
+<button onclick="placeOrder()">Place Order</button>
 `;
 
 function buy(){
  p.qty=document.getElementById("qty").value;
  localStorage.setItem("product",JSON.stringify(p));
  location.href="checkout.html";
+}
+</script>
+  <button onclick="placeOrder()">Place Order</button>
+
+<script>
+function placeOrder(){
+    const order = {
+        name: "Men Cotton T-Shirt",
+        img: "https://via.placeholder.com/600",
+        desc: "High quality cotton T-shirt, soft fabric, durable and comfortable for daily use."
+    };
+
+    let orders = JSON.parse(localStorage.getItem("orders")) || [];
+    orders.push(order);
+    localStorage.setItem("orders", JSON.stringify(orders));
+
+    window.location.href = "order.html";
 }
 </script>
 </body>
