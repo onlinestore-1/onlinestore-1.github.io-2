@@ -81,7 +81,7 @@ function placeOrder(){
         desc: "High quality cotton T-shirt, soft fabric, durable and comfortable for daily use."
     };
 
-    let orders = JSON.parse(localStorage.getItem("orders")) || [];
+    let orders = JSON.parse(localStorage.getItem("lastorder")) || [];
     orders.push(order);
     localStorage.setItem("orders", JSON.stringify(orders));
 
