@@ -2,8 +2,63 @@
 <html>
 <head>
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="referrer"content="strict-orgin-when-cross-origin">
 <title>Shop</title>
-<link rel="stylesheet" href="css/style.css">
+<style>
+  body{font-family:Arial;background:#f2f2f2}
+
+.header{
+  display:flex;
+  padding:10px;
+  background:#2874f0;
+}
+.header input{flex:1;padding:8px}
+.header a{font-size:24px;margin-left:10px;color:white}
+
+.grid{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:10px;
+  padding:10px;
+}
+
+.card{
+  background:white;
+  padding:10px;
+  border-radius:6px;
+}
+
+.img-box{position:relative}
+.img-box img{width:100%}
+.wish{
+  position:absolute;
+  top:5px;
+  right:5px;
+}
+
+.categories{
+  display:flex;
+  overflow-x:auto;
+}
+.cat{
+  background:white;
+  padding:10px;
+  margin:5px;
+  white-space:nowrap;
+}
+
+.order-card{
+  display:flex;
+  background:white;
+  margin:10px;
+  padding:10px;
+}
+.order-card img{
+  width:120px;
+  margin-right:10px;
+}
+.big{width:100%}
+</style>
 </head>
 <body>
 
