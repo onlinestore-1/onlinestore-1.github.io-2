@@ -1,96 +1,50 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="UTF-8">
 <title>Product</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <style>
-  body{font-family:Arial;margin:0}
-header{display:flex;padding:10px;background:#2874f0;color:white}
-header input{flex:1;margin-left:10px}
-
-.grid{
- display:grid;
- grid-template-columns:repeat(2,1fr);
- gap:10px;
- padding:10px;
-}
-
-.card{
- background:white;
- padding:10px;
- border-radius:5px;
-}
-
-.categories{
- display:flex;
- overflow-x:auto;
- gap:10px;
- padding:10px;
-}
-
-#menu{
- position:fixed;
- left:-100%;
- width:70%;
- height:100%;
- background:white;
- transition:.3s;
-}
-#menu.show{left:0}
+body{font-family:Arial;background:#f4f4f4}
+.box{background:#fff;margin:10px;padding:15px;border-radius:8px}
+img{width:100%;border-radius:8px}
+button,input{width:100%;padding:10px;margin-top:10px}
 </style>
 </head>
+
 <body>
 
-<div id="product"></div>
-
-<h3>You may also like</h3>
-<div id="related" class="grid"></div>
+<div id="product" class="box"></div>
 
 <script>
-  const products=[
- {id:1,name:"Men T-shirt",price:"$12",img:"https://i.imgur.com/h0z8h4X.jpeg/200",cat:"Clothes"},
- {id:2,name:"Ladies Dress",price:"$22",img:"https://via.placeholder.com/200",cat:"Clothes"},
- {id:3,name:"Phone",price:"$120",img:"https://via.placeholder.com/200",cat:"Electronics"}
+const products=[
+{id:1,name:"Men T-shirt",price:12,img:"https://via.placeholder.com/200",desc:"Soft cotton t-shirt"},
+{id:2,name:"Ladies Dress",price:22,img:"https://via.placeholder.com/200",desc:"Elegant ladies dress"}
 ];
-</script>
-<script>
-const p = JSON.parse(localStorage.getItem("product"));
-document.getElementById("product").innerHTML = `
+
+const p=products.find(x=>x.id==localStorage.getItem("pid"));
+
+document.getElementById("product").innerHTML=`
 <img src="${p.img}">
 <h2>${p.name}</h2>
-<p>${p.price}</p>
-<input type="number" id="qty" value="1">
-<button onclick="buy()">Buy Now</button>
+<p>${p.desc}</p>
+<p>$${p.price}</p>
+<input type="number" id="qty" value="1" min="1">
+<button onclick="addToCart()">Add to Cart</button>
+<button onclick="buyNow()">Buy Now</button>
 `;
 
-function buy(){
- p.qty=document.getElementById("qty").value;
- localStorage.setItem("product",JSON.stringify(p));
+function addToCart(){
+ let cart=JSON.parse(localStorage.getItem("cart"))||[];
+ cart.push({...p,qty:qty.value});
+ localStorage.setItem("cart",JSON.stringify(cart));
+ alert("Added to cart");
+}
+
+function buyNow(){
+ localStorage.setItem("order",JSON.stringify({...p,qty:qty.value}));
  location.href="checkout.html";
 }
 </script>
-  <div id="productList"></div>
 
-<script>
-const list = document.getElementById("productList");
-
-products.forEach(p=>{
-    list.innerHTML += `
-        <div style="margin-bottom:20px;">
-            <img src="${p.img}" width="200"><br>
-            <strong>${p.name}</strong><br>
-            ${p.price}<br>
-            <button onclick="buyNow(${p.id})">Buy Now</button>
-        </div>
-    `;
-});
-
-function buyNow(id){
-    const product = products.find(p => p.id === id);
-    localStorage.setItem("lastOrder", JSON.stringify(product));
-    window.location.href = "order.html";
-}
-</script>
 </body>
 </html>
