@@ -1,85 +1,90 @@
 <!DOCTYPE html>
 <html>
 <head>
+<meta charset="UTF-8">
 <title>My Orders</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
 
 <style>
 body{
-    font-family: Arial, sans-serif;
-    background:#f4f4f4;
-    padding:15px;
+  font-family: Arial;
+  background:#f2f2f2;
+  margin:0;
+  padding:10px;
+}
+h2{text-align:center}
+
+.orders{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:10px;
 }
 
-h2{
-    text-align:center;
-    font-size:28px;
+.order-card{
+  background:#fff;
+  border-radius:8px;
+  padding:8px;
+  box-shadow:0 2px 5px rgba(0,0,0,0.1);
 }
 
-.order-box{
-    max-width:520px;
-    margin:auto;
-    background:#fff;
-    padding:15px;
-    border-radius:12px;
-    box-shadow:0 4px 10px rgba(0,0,0,0.1);
+.order-card img{
+  width:100%;
+  border-radius:6px;
 }
 
-.order-box img{
-    width:100%;
-    border-radius:10px;
-    margin-bottom:12px;
+.order-card h4{
+  margin:6px 0 2px;
+  font-size:15px;
 }
 
-.order-name{
-    font-size:24px;
-    font-weight:bold;
+.order-card p{
+  margin:2px 0;
+  font-size:13px;
+  color:#555;
 }
 
-.order-price{
-    font-size:20px;
-    color:green;
-    margin-bottom:10px;
-}
-
-.delete-btn{
-    background:#d9534f;
-    color:white;
-    border:none;
-    width:100%;
-    padding:12px;
-    font-size:18px;
-    border-radius:8px;
-    cursor:pointer;
+.order-card button{
+  width:100%;
+  margin-top:6px;
+  padding:6px;
+  border:none;
+  background:#2874f0;
+  color:white;
+  border-radius:4px;
+  font-size:14px;
 }
 </style>
 </head>
 
 <body>
 
-<h2>📦 My Orders</h2>
+<h2>My Orders</h2>
 
-<div id="orderArea">
-    <p>Your placed orders will appear here.</p>
-</div>
+<div class="orders" id="orders"></div>
 
 <script>
-const orderArea = document.getElementById("orderArea");
-const order = JSON.parse(localStorage.getItem("lastOrder"));
+const orders = JSON.parse(localStorage.getItem("orders")) || [];
+const box = document.getElementById("orders");
 
-if(order){
-    orderArea.innerHTML = `
-        <div class="order-box">
-            <img src="${order.img}">
-            <div class="order-name">${order.name}</div>
-            <div class="order-price">${order.price}</div>
-            <button class="delete-btn" onclick="deleteOrder()">Delete After Delivery</button>
-        </div>
-    `;
+if(orders.length === 0){
+  box.innerHTML = "<p style='text-align:center'>No orders yet</p>";
 }
 
-function deleteOrder(){
-    localStorage.removeItem("lastOrder");
-    orderArea.innerHTML = "<p>Your placed orders will appear here.</p>";
+orders.forEach((o,index)=>{
+  box.innerHTML += `
+  <div class="order-card">
+    <img src="${o.img}" onclick="buyAgain(${index})">
+    <h4>${o.name}</h4>
+    <p>Quantity: ${o.qty}</p>
+    <p>Price: $${o.price}</p>
+    <button onclick="buyAgain(${index})">Buy Again</button>
+  </div>
+  `;
+});
+
+function buyAgain(i){
+  localStorage.setItem("selectedProduct", JSON.stringify(orders[i]));
+  window.location.href = "checkout.html";
 }
 </script>
 
