@@ -1,129 +1,112 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="referrer"content="strict-orgin-when-cross-origin">
+<meta charset="UTF-8">
 <title>Shop</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
 <style>
-  body{font-family:Arial;background:#f2f2f2}
+body{margin:0;font-family:Arial;background:#f4f4f4}
 
-.header{
-  display:flex;
-  padding:10px;
-  background:#2874f0;
-}
-.header input{flex:1;padding:8px}
-.header a{font-size:24px;margin-left:10px;color:white}
+/* Top bar */
+header{background:#000;padding:10px;color:#fff}
+header input{width:60%;padding:8px}
+header a{color:#fff;margin-left:10px;text-decoration:none}
 
-.grid{
-  display:grid;
-  grid-template-columns:repeat(2,1fr);
-  gap:10px;
-  padding:10px;
-}
+/* Ads */
+.slider img{width:100%;height:180px;object-fit:cover}
 
-.card{
-  background:white;
-  padding:10px;
-  border-radius:6px;
-}
+/* Categories */
+.cat-wrap{overflow-x:auto;padding:10px}
+.categories{display:flex;gap:12px;width:max-content}
+.category{background:#fff;width:120px;text-align:center;border-radius:8px;cursor:pointer}
+.category img{width:100%;height:80px;object-fit:cover;border-radius:8px 8px 0 0}
 
-.img-box{position:relative}
-.img-box img{width:100%}
-.wish{
-  position:absolute;
-  top:5px;
-  right:5px;
-}
-
-.categories{
-  display:flex;
-  overflow-x:auto;
-}
-.cat{
-  background:white;
-  padding:10px;
-  margin:5px;
-  white-space:nowrap;
-}
-
-.order-card{
-  display:flex;
-  background:white;
-  margin:10px;
-  padding:10px;
-}
-.order-card img{
-  width:120px;
-  margin-right:10px;
-}
-.big{width:100%}
+/* Products */
+.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;padding:12px}
+.card{background:#fff;padding:10px;border-radius:8px;text-align:center}
+.card img{width:100%;border-radius:6px;cursor:pointer}
 </style>
 </head>
+
 <body>
 
-<!-- HEADER -->
-<div class="header">
-  <input type="text" placeholder="Search products...">
-  <a href="cart.html">🛒</a>
-</div>
+<header>
+<input type="text" placeholder="Search products..." onkeyup="search(this.value)">
+<a href="cart.html">My Cart</a>
+<a href="orders.html">My Orders</a>
+</header>
 
-<!-- SLIDER -->
+<!-- Ads -->
 <div class="slider">
-  <img src="https://via.placeholder.com/800x200">
+<img id="ad" src="https://via.placeholder.com/800x300?text=Ad+1">
 </div>
 
-<!-- CATEGORY -->
-<h3>Categories</h3>
+<h3 style="padding:10px">Categories</h3>
+<div class="cat-wrap">
 <div class="categories">
-  <div class="cat">👕 Clothes</div>
-  <div class="cat">👟 Shoes</div>
-  <div class="cat">📱 Electronics</div>
+<div class="category" onclick="filterCat('Men')">
+<img src="https://via.placeholder.com/150"><p>Men</p>
+</div>
+<div class="category" onclick="filterCat('Women')">
+<img src="https://via.placeholder.com/150"><p>Women</p>
+</div>
+<div class="category" onclick="showAll()">
+<img src="https://via.placeholder.com/150"><p>All</p>
+</div>
+</div>
 </div>
 
-<!-- PRODUCTS -->
-<h3>Suggested for you</h3>
-<div class="grid" id="productList"></div>
+<h3 style="padding:10px">Products</h3>
+<div id="products" class="grid"></div>
+
+<h3 style="padding:10px">Suggested for You</h3>
+<div id="suggested" class="grid"></div>
+
+<h3 style="padding:10px">You May Also Like</h3>
+<div id="liked" class="grid"></div>
 
 <script>
-  const products = [
-  {
-    id: 1,
-    name: "Men T-shirt",
-    price: 12,
-    img: "https://via.placeholder.com/300",
-    category: "Clothes",
-    desc: "Comfortable cotton men t-shirt"
-  },
-  {
-    id: 2,
-    name: "Ladies Dress",
-    price: 22,
-    img: "https://via.placeholder.com/300",
-    category: "Clothes",
-    desc: "Stylish ladies dress"
-  }
+/* Ads slider */
+const ads=[
+"https://via.placeholder.com/800x300?text=Sale+1",
+"https://via.placeholder.com/800x300?text=Sale+2"
 ];
-</script>
-<script>
-const list = document.getElementById("productList");
-products.forEach(p => {
-  list.innerHTML += `
-  <div class="card">
-    <div class="img-box">
-      <img src="${p.img}">
-      <span class="wish">❤️</span>
-    </div>
-    <h4>${p.name}</h4>
-    <p>$${p.price}</p>
-    <button onclick="view(${p.id})">View</button>
-  </div>`;
-});
+let a=0;
+setInterval(()=>{
+ a=(a+1)%ads.length;
+ document.getElementById("ad").src=ads[a];
+},3000);
 
-function view(id){
-  localStorage.setItem("pid", id);
-  location.href = "product.html";
+/* Products */
+const products=[
+{id:1,name:"Men T-shirt",price:12,cat:"Men",img:"https://via.placeholder.com/200",desc:"Soft cotton t-shirt"},
+{id:2,name:"Ladies Dress",price:22,cat:"Women",img:"https://via.placeholder.com/200",desc:"Elegant ladies dress"}
+];
+
+function render(list){
+ document.getElementById("products").innerHTML=list.map(p=>`
+ <div class="card">
+  <img src="${p.img}" onclick="openProduct(${p.id})">
+  <h4>${p.name}</h4>
+  <p>$${p.price}</p>
+ </div>`).join("");
 }
+
+function openProduct(id){
+ localStorage.setItem("pid",id);
+ location.href="product.html";
+}
+
+function filterCat(c){render(products.filter(p=>p.cat===c))}
+function showAll(){render(products)}
+function search(t){
+ render(products.filter(p=>p.name.toLowerCase().includes(t.toLowerCase())))
+}
+
+render(products);
+document.getElementById("suggested").innerHTML=document.getElementById("products").innerHTML;
+document.getElementById("liked").innerHTML=document.getElementById("products").innerHTML;
 </script>
 
 </body>
