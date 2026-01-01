@@ -1,16 +1,14 @@
 <!DOCTYPE html>
 <html>
 <body>
-<h2>🛒 My Cart</h2>
+<h2>My Cart</h2>
 <div id="cart"></div>
+
 <script>
-  const o=JSON.parse(localStorage.getItem("cart"))||[];
-orders.innerHTML=o.map(x=>`
-<div>
-<h4>${x.product}</h4>
-<p>Qty:${x.qty}</p>
-<p>${x.name}</p>
-</div>`).join("");
+const cart=JSON.parse(localStorage.getItem("cart"))||[];
+document.getElementById("cart").innerHTML=cart.map(c=>`
+<p>${c.name} × ${c.qty}</p>
+`).join("");
 </script>
 </body>
 </html>
