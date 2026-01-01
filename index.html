@@ -85,7 +85,26 @@
 <h3>Suggested for you</h3>
 <div class="grid" id="productList"></div>
 
-<script src="js/data.js"></script>
+<script>
+  const products = [
+  {
+    id: 1,
+    name: "Men T-shirt",
+    price: 12,
+    img: "https://via.placeholder.com/300",
+    category: "Clothes",
+    desc: "Comfortable cotton men t-shirt"
+  },
+  {
+    id: 2,
+    name: "Ladies Dress",
+    price: 22,
+    img: "https://via.placeholder.com/300",
+    category: "Clothes",
+    desc: "Stylish ladies dress"
+  }
+];
+</script>
 <script>
 const list = document.getElementById("productList");
 products.forEach(p => {
