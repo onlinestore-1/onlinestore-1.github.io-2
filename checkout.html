@@ -12,16 +12,26 @@
 <h2>Cash on Delivery</h2>
 
 <form action="https://formsubmit.co/damasrphl2001@gmail.com" method="POST">
-    <input type="text" name="_honey" style="display:none">
-    <input type="hidden" name="_captcha" value="false">
-    <input type="hidden" name="_next" value="https://yourwebsite.com/thankyou.html">
 
-    <input type="text" name="name" placeholder="Full Name" required>
-    <input type="tel" name="phone" placeholder="Phone Number" required>
-    <input type="text" name="address" placeholder="Delivery Address" required>
-    <input type="hidden" name="payment_method" value="Cash on Delivery">
+  <!-- Honeypot (blocks bots) -->
+  <input type="text" name="_honey" style="display:none">
 
-    <button type="submit">PLACE ORDER</button>
+  <!-- Disable CAPTCHA -->
+  <input type="hidden" name="_captcha" value="false">
+
+  <!-- Redirect after submit -->
+  <input type="hidden" name="_next" value="https://yourwebsite.com/success.html">
+
+  <!-- Email subject -->
+  <input type="hidden" name="_subject" value="New Order - Cash on Delivery">
+
+  <!-- Order fields -->
+  <input type="text" name="name" placeholder="Full Name" required>
+  <input type="tel" name="phone" placeholder="Phone Number" required>
+  <input type="text" name="address" placeholder="Delivery Address" required>
+  <input type="hidden" name="payment" value="Cash on Delivery">
+
+  <button type="submit">PLACE ORDER</button>
 </form>
 
 </body>
