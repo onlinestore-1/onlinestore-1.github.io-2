@@ -43,27 +43,36 @@ header input{flex:1;margin-left:10px}
 </head>
 <body>
 
-<h2>Cash on Delivery</h2>
+<form id="orderForm">
 
-<form onsubmit="placeOrder()">
-<input id="name" placeholder="Full Name" required>
-<input id="phone" placeholder="Phone Number" required>
-<textarea id="address" placeholder="Address"></textarea>
-<button>Place Order</button>
+    <input type="text" id="name" placeholder="Full Name" required>
+    <input type="tel" id="phone" placeholder="Phone Number" required>
+    <input type="text" id="address" placeholder="Delivery Address" required>
+
+    <button type="submit">PLACE ORDER</button>
 </form>
 
 <script>
-function placeOrder(){
- const p=JSON.parse(localStorage.getItem("product"));
- const orders=JSON.parse(localStorage.getItem("orders"))||[];
- orders.push({
-  product:p.name,
-  qty:p.qty,
-  name:name.value,
-  phone:phone.value
- });
- localStorage.setItem("orders",JSON.stringify(orders));
-}
+document.getElementById("orderForm").addEventListener("submit", function(e){
+    e.preventDefault();
+
+    const name = document.getElementById("name").value;
+    const phone = document.getElementById("phone").value;
+    const address = document.getElementById("address").value;
+
+    const googleFormURL =
+    "https://docs.google.com/forms/d/e/FORM_ID/formResponse" +
+    "?entry.1111111111=" + encodeURIComponent(name) +
+    "&entry.2222222222=" + encodeURIComponent(phone) +
+    "&entry.3333333333=" + encodeURIComponent(address) +
+    "&entry.4444444444=" + encodeURIComponent("Cash on Delivery");
+
+    fetch(googleFormURL, { mode: "no-cors" })
+    .then(() => {
+        alert("✅ Order placed successfully!");
+        document.getElementById("orderForm").reset();
+    });
+});
 </script>
 
 </body>
