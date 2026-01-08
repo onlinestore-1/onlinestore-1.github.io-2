@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Admin Orders Panel</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+body{font-family:Arial;background:#eee;margin:0}
+header{background:#000;color:#fff;padding:12px;text-align:center}
+.order{background:#fff;margin:10px;padding:10px;border-radius:6px}
+img{width:80px}
+.delivered{background:green;color:white;border:none;padding:5px}
+</style>
+</head>
+<body>
+
+<header>ADMIN – CUSTOMER ORDERS</header>
+<div id="adminOrders"></div>
+
+<script>
+let orders = JSON.parse(localStorage.getItem("orders")) || [];
+const box = document.getElementById("adminOrders");
+
+if(orders.length === 0){
+  box.innerHTML = "<p>No orders yet</p>";
+}
+
+orders.forEach((o,i)=>{
+  box.innerHTML += `
+    <div class="order">
+      <img src="${o.image}">
+      <p><b>Product:</b> ${o.productName}</p>
+      <p><b>Price:</b> $${o.price}</p>
+      <p><b>Customer:</b> ${o.customer}</p>
+      <p><b>Phone:</b> ${o.phone}</p>
+      <p><b>Address:</b> ${o.address}</p>
+      <p><b>Date:</b> ${o.date}</p>
+      <p><b>Status:</b> ${o.status}</p>
+
+      <button class="delivered" onclick="markDelivered(${i})">
+        Mark Delivered
+      </button>
+    </div>
+  `;
+});
+
+function markDelivered(i){
+  orders[i].status = "Delivered";
+  localStorage.setItem("orders", JSON.stringify(orders));
+  location.reload();
+}
+</script>
+
+</body>
+</html>
