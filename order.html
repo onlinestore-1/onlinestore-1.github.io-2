@@ -1,91 +1,36 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="UTF-8">
 <title>My Orders</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
-
 <style>
-body{
-  font-family: Arial;
-  background:#f2f2f2;
-  margin:0;
-  padding:10px;
-}
-h2{text-align:center}
-
-.orders{
-  display:grid;
-  grid-template-columns:repeat(2,1fr);
-  gap:10px;
-}
-
-.order-card{
-  background:#fff;
-  border-radius:8px;
-  padding:8px;
-  box-shadow:0 2px 5px rgba(0,0,0,0.1);
-}
-
-.order-card img{
-  width:100%;
-  border-radius:6px;
-}
-
-.order-card h4{
-  margin:6px 0 2px;
-  font-size:15px;
-}
-
-.order-card p{
-  margin:2px 0;
-  font-size:13px;
-  color:#555;
-}
-
-.order-card button{
-  width:100%;
-  margin-top:6px;
-  padding:6px;
-  border:none;
-  background:#2874f0;
-  color:white;
-  border-radius:4px;
-  font-size:14px;
-}
+body{font-family:Arial;background:#f4f4f4;margin:0}
+header{background:#2874f0;color:#fff;padding:12px;text-align:center}
+.card{background:#fff;margin:10px;padding:10px;border-radius:6px;display:flex;gap:10px}
+img{width:90px;height:90px;object-fit:cover}
 </style>
 </head>
-
 <body>
 
-<h2>My Orders</h2>
-
-<div class="orders" id="orders"></div>
+<header>My Orders</header>
+<div id="orders"></div>
 
 <script>
-const orders = JSON.parse(localStorage.getItem("orders")) || [];
+let orders = JSON.parse(localStorage.getItem("orders")) || [];
 const box = document.getElementById("orders");
 
-if(orders.length === 0){
-  box.innerHTML = "<p style='text-align:center'>No orders yet</p>";
-}
-
-orders.forEach((o,index)=>{
+orders.forEach(o=>{
   box.innerHTML += `
-  <div class="order-card">
-    <img src="${o.img}" onclick="buyAgain(${index})">
-    <h4>${o.name}</h4>
-    <p>Quantity: ${o.qty}</p>
-    <p>Price: $${o.price}</p>
-    <button onclick="buyAgain(${index})">Buy Again</button>
-  </div>
+    <div class="card">
+      <img src="${o.image}">
+      <div>
+        <b>${o.productName}</b><br>
+        Price: $${o.price}<br>
+        Status: ${o.status}
+      </div>
+    </div>
   `;
 });
-
-function buyAgain(i){
-  localStorage.setItem("selectedProduct", JSON.stringify(orders[i]));
-  window.location.href = "checkout.html";
-}
 </script>
 
 </body>
